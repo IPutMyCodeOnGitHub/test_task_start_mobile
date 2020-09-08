@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @Route("/admin")
+ * @Route("/api")
  */
 class AuthorController extends AbstractFOSRestController
 {
@@ -33,6 +33,10 @@ class AuthorController extends AbstractFOSRestController
   public function authorList()
   {
     $authors = $this->authorRepository->findAll();
+    $bookCounts = array();
+    foreach ($authors as $author) {
+      $bookCounts[] = count($author->getBooks());
+    }
 
     $view = new View();
     $view->setData($authors);
@@ -55,12 +59,16 @@ class AuthorController extends AbstractFOSRestController
   }
 
   /**
-   * @Route("/authors/{id<\d+>}", name="update.author", methods={"PUT"})
+   * @Route("/authors/{id<\d+>}", name="update.author", methods={"POST"})
    * @ParamConverter("newAuthor", converter="fos_rest.request_body")
    */
   public function updateAuthor(Author $newAuthor, int $id)
   {
     $updAuthor = $this->authorRepository->find($id);
+    if (!$updAuthor){
+      throw $this->createNotFoundException('The author does not exist');
+    }
+
     if ($newAuthor->getName()){
       $updAuthor->setName($newAuthor->getName());
     }

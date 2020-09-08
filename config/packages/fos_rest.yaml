@@ -9,4 +9,4 @@ fos_rest:
   param_fetcher_listener: true
   format_listener:
     rules:
-      - { path: '^/admin',  priorities: ['json'], fallback_format: json, prefer_extension: true }
+      - { path: '^/api',  priorities: ['json'], fallback_format: json, prefer_extension: true }
