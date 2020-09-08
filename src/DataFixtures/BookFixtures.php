@@ -12,8 +12,8 @@ class BookFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         #100000 books for 0's author
-        $batchSize = 100;
-        for ($i = 0; $i < 100000; $i++) {
+        $batchSize = 10;
+        for ($i = 0; $i < 100; $i++) {
             $book = new Book();
             $book->setTitle('Book0_' . $i);
             $book->setPage(300);

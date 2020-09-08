@@ -25,7 +25,7 @@ class Author
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity=Book::class, mappedBy="author")
+     * @ORM\OneToMany(targetEntity=Book::class, mappedBy="author", cascade={"persist", "remove"})
      */
     private $books;
 

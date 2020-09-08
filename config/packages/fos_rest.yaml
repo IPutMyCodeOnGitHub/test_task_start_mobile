@@ -1,0 +1,12 @@
+fos_rest:
+  view:
+    view_response_listener: true
+  serializer:
+    serialize_null: true
+  body_converter:
+    enabled: true
+  body_listener: true
+  param_fetcher_listener: true
+  format_listener:
+    rules:
+      - { path: '^/admin',  priorities: ['json'], fallback_format: json, prefer_extension: true }
