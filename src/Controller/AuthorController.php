@@ -10,21 +10,24 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
-
+use App\Services\AuthentificationService;
 /**
- * @Route("/api")
+ * @Route("/api/v1")
  */
 class AuthorController extends AbstractFOSRestController
 {
   private $entityManager;
   private $authorRepository;
+  private $authService;
 
   public function __construct(
     EntityManagerInterface $em,
-    AuthorRepository $authorRepository)
+    AuthorRepository $authorRepository,
+    AuthentificationService $authService)
   {
     $this->entityManager = $em;
     $this->authorRepository = $authorRepository;
+    $this->authService = $authService;
   }
 
   /**
@@ -32,6 +35,10 @@ class AuthorController extends AbstractFOSRestController
    */
   public function authorList()
   {
+    if ($this->authService->checkUsername()) {
+      return $this->authService->checkUsername();
+    }
+
     $authors = $this->authorRepository->findAll();
     $bookCounts = array();
     foreach ($authors as $author) {
@@ -50,6 +57,10 @@ class AuthorController extends AbstractFOSRestController
    */
   public function createAuthor(Author $author)
   {
+    if ($this->authService->checkUsername()) {
+      return $this->authService->checkUsername();
+    }
+
     $this->entityManager->persist($author);
     $this->entityManager->flush();
     $view = new View();
@@ -64,6 +75,10 @@ class AuthorController extends AbstractFOSRestController
    */
   public function updateAuthor(Author $newAuthor, int $id)
   {
+    if ($this->authService->checkUsername()) {
+      return $this->authService->checkUsername();
+    }
+
     $updAuthor = $this->authorRepository->find($id);
     if (!$updAuthor){
       throw $this->createNotFoundException('The author does not exist');
@@ -87,6 +102,9 @@ class AuthorController extends AbstractFOSRestController
    */
   public function deleteAuthor(Author $author)
   {
+    if ($this->authService->checkUsername()) {
+      return $this->authService->checkUsername();
+    }
     $this->entityManager->remove($author);
     $this->entityManager->flush();
 
@@ -98,6 +116,9 @@ class AuthorController extends AbstractFOSRestController
    */
   public function showAuthor(Author $author)
   {
+    if ($this->authService->checkUsername()) {
+      return $this->authService->checkUsername();
+    }
     $view = new View();
     $view->setData($author);
 

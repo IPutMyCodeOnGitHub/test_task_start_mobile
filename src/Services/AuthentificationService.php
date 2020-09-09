@@ -2,16 +2,14 @@
 
 namespace App\Services;
 
+use Symfony\Component\HttpFoundation\Response;
 class AuthentificationService
 {
+
   public function checkUsername()
   {
-    if ($_SERVER['HTTP_API_USER_NAME'] === 'admin'){
-      return true;
-    } else {
-      header('HTTP/1.1 403 incorrect user');
-      echo 'Incorrect user';
-      return false;
+    if (!array_key_exists('HTTP_API_USER_NAME', $_SERVER) || $_SERVER['HTTP_API_USER_NAME'] != 'admin'){
+        return new Response("403. Incorrect user", Response::HTTP_FORBIDDEN);
     }
   }
 }

@@ -16,7 +16,7 @@
 
     POST http://localhost:8080/api/v1/authors - создание автора, метод получает заголовок Content-Type "application/json" с соответствующим json'ом, например:
         {
-            "name": "sample_name",
+            "name": "sample_name"
         }
 
     POST http://localhost:8080/api/v1/admin/authors/{id} - редактирование автора с идентификатором id, метод получает заголовок Content-Type "application/json" с соответствующим json'ом с новыми значениями полей
@@ -46,3 +46,5 @@
     POST http://localhost:8080/api/v1/books/update/{id} - обновление данных книги, метод получает заголовок Content-Type "application/json" с соответствующим json'ом с новыми значениями полей
 
     DELETE http://localhost:8080/api/v1/books/{id} - удаление записи книги из бд
+
+   5. Для доступа к каждому из реализованных методов необходимо отправлять запросы с заголовком API-USER-NAME со значением admin.

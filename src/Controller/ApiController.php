@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Book;
 use App\Repository\BookRepository;
-use App\Repository\AuthorRepository;
 use App\Services\AuthentificationService;
 use FOS\RestBundle\View\View;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
@@ -20,18 +19,15 @@ use Symfony\Component\HttpFoundation\Response;
 class ApiController extends AbstractFOSRestController
 {
   private $entityManager;
-  private $authorRepository;
   private $bookRepository;
   private $authService;
 
   public function __construct(
     EntityManagerInterface $em,
-    AuthorRepository $authorRepository,
     BookRepository $bookRepository,
     AuthentificationService $authService
   ) {
     $this->entityManager = $em;
-    $this->authorRepository = $authorRepository;
     $this->bookRepository = $bookRepository;
     $this->authService = $authService;
   }
@@ -41,7 +37,9 @@ class ApiController extends AbstractFOSRestController
    */
   public function bookList()
   {
-    $this->authService->checkUsername();
+    if($this->authService->checkUsername()){
+      return $this->authService->checkUsername();
+    }
     $books = $this->bookRepository->findAll();
 
     $view = new View();
@@ -55,7 +53,9 @@ class ApiController extends AbstractFOSRestController
    */
   public function showBook(Book $book)
   {
-
+    if ($this->authService->checkUsername()) {
+      return $this->authService->checkUsername();
+    }
     $view = new View();
     $view->setData($book);
 
@@ -68,6 +68,10 @@ class ApiController extends AbstractFOSRestController
    */
   public function updateBook(Book $newBook, int $id)
   {
+    if ($this->authService->checkUsername()) {
+      return $this->authService->checkUsername();
+    }
+
     $updBook = $this->bookRepository->find($id);
     if (!$updBook){
       throw $this->createNotFoundException('The book does not exist');
@@ -103,6 +107,9 @@ class ApiController extends AbstractFOSRestController
    */
   public function deleteBook(Book $book)
   {
+    if ($this->authService->checkUsername()) {
+      return $this->authService->checkUsername();
+    }
     $this->entityManager->remove($book);
     $this->entityManager->flush();
 
