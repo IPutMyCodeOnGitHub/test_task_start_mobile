@@ -1,0 +1,12 @@
+App\Entity\Book:
+  properties:
+    id:
+      expose: true
+    title:
+      expose: true
+    author:
+      expose: true
+    page:
+      expose: true
+    publication_year:
+      expose: true
